@@ -1,0 +1,21 @@
+{
+  "name": "tp-web-server",
+  "version": "1.0.0",
+  "description": "tp-web-server",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "tp-web-server"
+  },
+  "author": "Laura Billi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.11"
+  },
+  "keywords": []
+}

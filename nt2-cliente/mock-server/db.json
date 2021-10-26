@@ -1,0 +1,54 @@
+{
+  "categorias": [
+    {
+      "id": 1,
+      "desc": "Electrodomésticos"
+    },
+    {
+      "id": 2,
+      "desc": "Mascotas"
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "desc": "Televisor",
+      "categoria": 1,
+      "precio_usd": 1000
+    },
+    {
+      "id": 2,
+      "desc": "Batidora",
+      "categoria": 1,
+      "precio_usd": 100
+    },
+    {
+      "id": 3,
+      "desc": "Cucha pa'l perro",
+      "categoria": 2,
+      "precio_usd": 530
+    },
+    {
+      "desc": "23dsf",
+      "precio_usd": 2,
+      "id": 4
+    }
+  ],
+  "sucursales": [
+    {
+      "id": 1,
+      "desc": "V. Santa Rita",
+      "direccion": "Nazca 1600"
+    },
+    {
+      "id": 2,
+      "desc": "Flores",
+      "direccion": "Rivadavia 8541"
+    },
+    {
+      "id": 3,
+      "desc": "Centro",
+      "direccion": "Lavalle 876"
+    }
+  ]
+}
