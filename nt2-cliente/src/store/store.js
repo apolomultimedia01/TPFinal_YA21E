@@ -1,5 +1,6 @@
 
 import { createStore } from 'vuex'
+import srvUsuario from '../services/Usuarios.js'
 
 // Create a new store instance.
 const store = createStore({
@@ -23,12 +24,14 @@ const store = createStore({
   },
   actions:{
     login({commit}, usuario){
-        console.log(`entró a login con ${usuario}`);
-        commit('SET_USER_DATA', usuario);
+        const usr = srvUsuario.validarUsuario(usuario);
+        if(usr!==null){
+          console.log(`entró a login con ${usuario}`);
+          commit('SET_USER_DATA', usuario);
+        }
     },
     logout({commit}){
       console.log(`entró a logout`);
-      //commit('SET_USER_DATA', null); //tambien puedo hacerlo así
       commit('CLEAR_USER_DATA'); 
   }
   },

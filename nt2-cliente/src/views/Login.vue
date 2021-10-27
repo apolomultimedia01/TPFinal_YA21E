@@ -1,11 +1,22 @@
 <template>
-    <h2>Login</h2>
     <!-- redirecciono el submit para que vaya al login en vez de irse de la pag -->
-    <form @submit.prevent='login'> 
-        <p>Usuario <input type="email" v-model="usuario.email"></p>
-        <p>Contraseña <input type="password" v-model="usuario.password"></p>
-        <button type="submit">Login</button>
+    <div>
+    <form @submit.prevent="login">
+      <label for="email">
+        Email:
+      </label>
+      <input v-model="usuario.email" type="email" name="email" value>
+
+      <label for="password">
+        Password:
+      </label>
+      <input v-model="usuario.pass" type="password" name="pass" value>
+
+      <button type="submit" name="button">
+        Login
+      </button>
     </form>
+  </div>
 </template>
 
 <script>
@@ -15,7 +26,7 @@ export default {
         return {
             usuario: {
                 email:'',
-                password:''
+                pass:''
             }
         }
     },

@@ -1,9 +1,11 @@
 <template>
+    <div>
   <h2>Logout</h2>
   <!-- redirecciono el submit para que vaya al login en vez de irse de la pag -->
     <form @submit.prevent='logout'> 
         <button type="submit">Logout</button>
     </form>
+    </div>
 </template>
 
 <script>
