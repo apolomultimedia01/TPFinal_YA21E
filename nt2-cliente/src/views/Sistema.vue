@@ -1,16 +1,18 @@
 <template>
-  <h2>Sistema</h2>
-  <!--<p>{{ this.$store.getters.islogin }}</p>-->
-  <!--{{ lista }}-->
-  <ul>
-    <li v-for="producto in lista" v-bind:key="producto.id">
-      {{ producto.id }} {{ producto.desc }} ..... $ {{ producto.precio_usd }}
-    </li>
-  </ul>
-  
-  <p>Descripcion: <input type="text" v-model="producto.desc" /></p>
-  <p>Precio: <input type="text" v-model="producto.precio_usd" /></p>
-  <button v-on:click="agregar">Agregar</button>
+  <div>
+    <h2>Sistema</h2>
+    <!--<p>{{ this.$store.getters.islogin }}</p>-->
+    <!--{{ lista }}-->
+    <ul>
+      <li v-for="producto in lista" v-bind:key="producto.id">
+        {{ producto.id }} {{ producto.desc }} ..... $ {{ producto.precio_usd }}
+      </li>
+    </ul>
+    
+    <p>Descripcion: <input type="text" v-model="producto.desc" /></p>
+    <p>Precio: <input type="text" v-model="producto.precio_usd" /></p>
+    <button v-on:click="agregar">Agregar</button>
+  </div>
 </template>
 
 <script>

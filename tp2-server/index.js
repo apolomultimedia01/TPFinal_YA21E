@@ -9,8 +9,7 @@ const app = express();  //new
 
 //const funciones = require('./modules/funciones.js');
 
-const recurso = 'usuario';
-const ruta = `/${recurso}`;
+const ruta = '/usuario';
 
 const puerto  = 5000;
 
@@ -29,10 +28,31 @@ app.use(async function (req, res, next){
         console.log(err.message);
         res.status(500).end(); 
     });
-    console.log('conecta');
+    console.log('Conectó');
     next();
 })
 
+
+app.post(ruta + '/validar', async function (req, res) {
+
+    User.findOne({ email : req.body.email, pass : req.body.pass }).exec()
+    .then(data => {
+        console.log(data);
+        if(data!==null){
+            res.status(200);
+            res.send(data);
+            
+        }else{
+            res.status(401);
+            res.send();
+        }
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
 
 app.get(ruta, (req, res) => {
 
@@ -47,25 +67,9 @@ app.get(ruta, (req, res) => {
 
 })
 
-app.get(ruta + '/:id', (req, res) => {
-
-    const existe = User.findById({ _id : req.params.id }) // NO ANDAAAAAAAA:
-
-    .then(data => {
-        res.send(data);
-    })
-    .catch(err => {
-        console.log(err.message);
-        res.status(404).end(); 
-    })
-
-})
-
 app.get(ruta + '/email/:mail', (req, res) => {
 
-    console.log(`llega con este mail: ${req.params.mail}`);
-
-    User.find({ mail : req.params.mail })  //NO FILTRA!!!!
+    User.findOne({ email : req.params.mail }).exec()  //El exec hay que ponerlo cuando se le ponen parámetros
     .then(data => {
         res.send(data);
     })
@@ -76,19 +80,12 @@ app.get(ruta + '/email/:mail', (req, res) => {
     
 })
 
-app.post(ruta + '/validar', async function (req, res) {
 
-    User.find({ email : req.body.email, pass : req.body.pass })
+app.get(ruta + '/:id', (req, res) => {
+
+    User.findById({ _id : req.params.id }) 
     .then(data => {
-        console.log(data);
-
-        if(data!==null){
-            res.status(200);
-            res.send(data);
-        }else{
-            res.status(401);
-            res.send();
-        }
+        res.send(data);
     })
     .catch(err => {
         console.log(err.message);

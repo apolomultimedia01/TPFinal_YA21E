@@ -1,12 +1,14 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home | </router-link>
-    <router-link to="/about">About | </router-link>
-    <router-link v-show="islogin" to="/sistema">Sistema | </router-link>
-    <router-link v-show="!islogin" to="/login">Login | </router-link>
-    <router-link v-show="islogin" to="/logout">Logout</router-link>
+  <div>
+    <div id="nav">
+      <router-link to="/">Home | </router-link>
+      <router-link to="/about">About | </router-link>
+      <router-link v-show="islogged" to="/sistema">Sistema | </router-link>
+      <router-link v-show="!islogged" to="/login">Login | </router-link>
+      <router-link v-show="islogged" to="/logout">Logout</router-link>
+    </div>
+    <router-view/>
   </div>
-  <router-view/>
 </template>
 
 <script>
@@ -16,7 +18,7 @@ import { mapGetters } from 'vuex'
 export default defineComponent({
   name: 'App',
   computed: {
-    ...mapGetters(['islogin'])
+    ...mapGetters(['islogged'])
   }
 })
 </script>

@@ -2,19 +2,15 @@
     <!-- redirecciono el submit para que vaya al login en vez de irse de la pag -->
     <div>
     <form @submit.prevent="login">
-      <label for="email">
-        Email:
-      </label>
+      <label v-text="error"></label><br>
+
+      <label for="email">Email:</label>
       <input v-model="usuario.email" type="email" name="email" value>
 
-      <label for="password">
-        Password:
-      </label>
+      <label for="pass">Password:</label>
       <input v-model="usuario.pass" type="password" name="pass" value>
 
-      <button type="submit" name="button">
-        Login
-      </button>
+      <button type="submit" name="button">Login</button>
     </form>
   </div>
 </template>
@@ -27,14 +23,18 @@ export default {
             usuario: {
                 email:'',
                 pass:''
-            }
+            },
+            error: ''
         }
     },
     methods: {
         async login(){
             console.log('login');
-            await this.$store.dispatch('login',{usuario: this.usuario})
-            this.$router.push({name: 'Sistema'})
+            this.$store
+              .dispatch('login', this.usuario)
+              .then(() => {
+                this.$router.push({ name: 'Home' })
+              })
         }
     }
 }

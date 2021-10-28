@@ -12,15 +12,17 @@ const rutaUsuario = '/usuario';
 
 export default {
   validarUsuario(usuario) {
+    console.log(usuario);
     return apiClient.post(`${rutaUsuario}/validar`, usuario)
-  }
-  /*
+  },
   getUsuarios() {
     return apiClient.get(rutaUsuario)
   },
-  getUsuariosPor(id) {
+  getUsuariosPorId(id) {
     return apiClient.get(`${rutaUsuario}/${id}`)
-  },
+  }
+  /*
+  ,
   postUsuarios(usuario) {
     return apiClient.post(`${rutaUsuario}/`, usuario)
   },

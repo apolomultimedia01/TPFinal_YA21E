@@ -19,16 +19,16 @@ const store = createStore({
       console.log(`entró a clearuserdata`);
       state.usuario = null;
       localStorage.removeItem('usr'); //quito de memoria del browser el usuario
-      //location.reload();
     }
   },
   actions:{
     login({commit}, usuario){
-        const usr = srvUsuario.validarUsuario(usuario);
-        if(usr!==null){
-          console.log(`entró a login con ${usuario}`);
-          commit('SET_USER_DATA', usuario);
-        }
+        srvUsuario.validarUsuario(usuario)
+          .then((data) => {
+            console.log(`Se logueó con ${usuario}`);
+            console.log(`Devolvió ${data.email}`);
+            commit('SET_USER_DATA', usuario);
+          })
     },
     logout({commit}){
       console.log(`entró a logout`);
@@ -36,7 +36,7 @@ const store = createStore({
   }
   },
   getters: {
-      islogin(state){
+      islogged(state){
           return !!state.usuario;
       }
   }
