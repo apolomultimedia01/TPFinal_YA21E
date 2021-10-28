@@ -26,8 +26,11 @@ const store = createStore({
         srvUsuario.validarUsuario(usuario)
           .then((data) => {
             console.log(`Se logueó con ${usuario}`);
-            console.log(`Devolvió ${data.email}`);
+            console.log(`Devolvió ${data}`);
             commit('SET_USER_DATA', usuario);
+          })
+          .catch((error) => {
+            console.log(error.message);
           })
     },
     logout({commit}){

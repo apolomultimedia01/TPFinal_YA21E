@@ -13,7 +13,13 @@ const rutaUsuario = '/usuario';
 export default {
   validarUsuario(usuario) {
     console.log(usuario);
+    
     return apiClient.post(`${rutaUsuario}/validar`, usuario)
+      .then((data) => {console.log(data);})
+      .catch((error) => {
+        console.log(error.message);
+      })
+
   },
   getUsuarios() {
     return apiClient.get(rutaUsuario)
