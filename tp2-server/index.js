@@ -1,7 +1,6 @@
 const express = require('express'); //import
 
 const mongoose = require('mongoose')
-const User = require('./models/user')
 
 const cors = require('cors')
 
@@ -9,11 +8,16 @@ const app = express();  //new
 
 //const funciones = require('./modules/funciones.js');
 
-const ruta = '/usuario';
-
 const puerto  = 5000;
 
 const DSN = 'mongodb://localhost:27017/tpfinal-ya21e'; // Data source name
+
+const rutaUsuario = '/usuario';
+const Usuarios = require('./models/user')
+
+const rutaCategorias = '/categoria';
+const Categorias = require('./models/categories')
+
 
 app.use(cors());
 
@@ -33,9 +37,12 @@ app.use(async function (req, res, next){
 })
 
 
-app.post(ruta + '/validar', async function (req, res) {
+// -----------------------------------------   USUARIOS ------------------------------------------------------
 
-    User.findOne({ email : req.body.email, pass : req.body.pass }).exec()
+
+app.post(rutaUsuario + '/validar', async function (req, res) {
+
+    Usuarios.findOne({ email : req.body.email, pass : req.body.pass }).exec()
     .then(data => {
         console.log(data);
         if(data!==null){
@@ -54,9 +61,9 @@ app.post(ruta + '/validar', async function (req, res) {
 
 })
 
-app.get(ruta, (req, res) => {
+app.get(rutaUsuario, (req, res) => {
 
-    User.find()
+    Usuarios.find()
     .then(data => {
         res.send(data);
     })
@@ -67,9 +74,9 @@ app.get(ruta, (req, res) => {
 
 })
 
-app.get(ruta + '/email/:mail', (req, res) => {
+app.get(rutaUsuario + '/email/:mail', (req, res) => {
 
-    User.findOne({ email : req.params.mail }).exec()  //El exec hay que ponerlo cuando se le ponen parámetros
+    Usuarios.findOne({ email : req.params.mail }).exec()  //El exec hay que ponerlo cuando se le ponen parámetros
     .then(data => {
         res.send(data);
     })
@@ -81,9 +88,9 @@ app.get(ruta + '/email/:mail', (req, res) => {
 })
 
 
-app.get(ruta + '/:id', (req, res) => {
+app.get(rutaUsuario + '/:id', (req, res) => {
 
-    User.findById({ _id : req.params.id }) 
+    Usuarios.findById({ _id : req.params.id }) 
     .then(data => {
         res.send(data);
     })
@@ -94,5 +101,40 @@ app.get(ruta + '/:id', (req, res) => {
 
 })
 
+
+// -----------------------------------------  FIN  USUARIOS ------------------------------------------------------
+
+
+// -----------------------------------------   CATEGORIAS ------------------------------------------------------
+
+app.post(rutaCategorias, async function (req, res) {
+
+    try{
+        const existe = await Categorias.exists({ name : req.body.name })
+        if(!existe){
+            console.log("va a crear");
+            Categorias.create(req.body)
+            .then((data) => {
+                res.status(200);
+                res.send(data);
+            })
+            .catch(err => {
+                console.log(error.message);
+                res.status(404).end(); 
+            })
+        }else{
+            console.log("La categoría ya existe");
+            res.status(409);
+            res.send();
+        }
+    }catch(error){
+        console.log(error.message);
+        res.status(404).end(); 
+    }
+    
+})
+
+
+// -----------------------------------------  FIN CATEGORIAS ------------------------------------------------------
 
 app.listen(puerto); 

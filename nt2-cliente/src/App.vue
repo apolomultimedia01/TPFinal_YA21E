@@ -5,7 +5,7 @@
       <router-link to="/about">About | </router-link>
       <router-link v-show="islogged" to="/sistema">Sistema | </router-link>
       <router-link v-show="!islogged" to="/login">Login | </router-link>
-      <router-link v-show="islogged" to="/logout">Logout</router-link>
+      <a v-show="islogged" href="#" v-on:click="logout">Logout</a>
     </div>
     <router-view/>
   </div>
@@ -13,12 +13,13 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'App',
   computed: {
-    ...mapGetters(['islogged'])
+    ...mapGetters(['islogged']),
+    ...mapActions(['logout'])
   }
 })
 </script>

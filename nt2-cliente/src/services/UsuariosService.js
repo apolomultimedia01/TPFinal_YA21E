@@ -29,17 +29,5 @@ export default {
   getUsuariosPorId(id) {
     return apiClient.get(`${rutaUsuario}/${id}`)
   }
-  /*
-  ,
-  postUsuarios(usuario) {
-    return apiClient.post(`${rutaUsuario}/`, usuario)
-  },
-  deleteUsuario(id) {
-    return apiClient.delete(`${rutaUsuario}/${id}`)
-  },
-  putUsuario(usuario) {
-      console.log(usuario)
-      return (`${rutaUsuario}/${usuario.id}` , usuario)
-  },
-  */
+
 }

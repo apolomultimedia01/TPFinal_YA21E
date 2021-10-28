@@ -1,6 +1,6 @@
 
 import { createStore } from 'vuex'
-import srvUsuario from '../services/Usuarios.js'
+import srvUsuario from '../services/UsuariosService.js'
 
 // Create a new store instance.
 const store = createStore({
@@ -36,9 +36,8 @@ const store = createStore({
 
     },
     logout({commit}){
-      console.log(`entró a logout`);
       commit('CLEAR_USER_DATA'); 
-  }
+    }
   },
   getters: {
       islogged(state){
