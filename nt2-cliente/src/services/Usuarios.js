@@ -12,12 +12,14 @@ const rutaUsuario = '/usuario';
 
 export default {
   validarUsuario(usuario) {
-    console.log(usuario);
-    
+
     return apiClient.post(`${rutaUsuario}/validar`, usuario)
-      .then((data) => {console.log(data);})
+      .then((data) => {
+        console.log(data);
+        return data
+      })
       .catch((error) => {
-        console.log(error.message);
+        console.log(`Error = ${error.message}`);
       })
 
   },
