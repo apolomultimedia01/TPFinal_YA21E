@@ -3,7 +3,6 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Sistema from '../views/Sistema.vue'
 import Login from '../views/Login.vue'
-import Logout from '../views/Logout.vue'
 
 const routes = [
   {

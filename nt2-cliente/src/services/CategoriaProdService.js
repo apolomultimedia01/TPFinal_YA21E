@@ -9,20 +9,20 @@ const apiClient = axios.create({
 })
 
 export default {
-  getProductos() {
-    return apiClient.get('/productos')
+  getCategorias() {
+    return apiClient.get('/categoria')
   },
-  getProductosPor(id) {
-    return apiClient.get('/productos/' + id)
+  getCategoriasPor(id) {
+    return apiClient.get('/categoria/' + id)
   },
-  postProductos(producto) {
-    return apiClient.post('/productos/', producto)
+  postCategorias(categoria) {
+    return apiClient.post('/categoria/', categoria)
   },
-  deleteProducto(id) {
-    return apiClient.delete('/productos/' + id)
+  deleteCategoria(id) {
+    return apiClient.delete('/categoria/' + id)
   },
-  putProducto(producto) {
-      console.log(producto)
-      return ('/productos/' + producto.id , producto)
+  putCategoria(categoria) {
+      console.log(categoria)
+      return ('/categoria/' + categoria.id , categoria)
   },
 }

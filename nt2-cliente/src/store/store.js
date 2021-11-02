@@ -10,6 +10,7 @@ const store = createStore({
     }
   },
   mutations: {
+
     SET_USER_DATA(state, usuario){
         console.log(`entró a setuserdata con ${usuario}`);
         state.usuario = usuario;
@@ -20,6 +21,7 @@ const store = createStore({
       state.usuario = null;
       localStorage.removeItem('usr'); //quito de memoria del browser el usuario
     }
+
   },
   actions:{
     async login({commit}, usuario){

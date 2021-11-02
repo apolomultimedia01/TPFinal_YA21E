@@ -1,8 +1,6 @@
 <template>
   <div>
     <h2>Sistema</h2>
-    <!--<p>{{ this.$store.getters.islogin }}</p>-->
-    <!--{{ lista }}-->
     <ul>
       <li v-for="producto in lista" v-bind:key="producto.id">
         {{ producto.id }} {{ producto.desc }} ..... $ {{ producto.precio_usd }}
