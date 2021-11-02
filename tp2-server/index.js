@@ -134,6 +134,31 @@ app.post(rutaCategorias, async function (req, res) {
     
 })
 
+app.get(rutaCategorias, (req, res) => {
+
+    Categorias.find()
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
+
+app.get(rutaCategorias + '/:id', (req, res) => {
+
+    Categorias.findById({ _id : req.params.id }) 
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
 
 // -----------------------------------------  FIN CATEGORIAS ------------------------------------------------------
 
