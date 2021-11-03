@@ -16,7 +16,7 @@
 
     <ul>
       <li v-for="categoria in lista" v-bind:key="categoria.id">
-        {{ categoria.id }} {{ categoria.name }} <a href="#" v-on:click="editar">Editar</a> <a href="#" v-on:click='eliminar(categoria.id)'>Eliminar</a>
+        {{ categoria.id }} {{ categoria.name }} <a href="#" v-on:click="cargarControles(categoria)">Editar</a> <a href="#" v-on:click='eliminar(categoria.id)'>Eliminar</a>
       </li>
     </ul>
 
@@ -45,15 +45,27 @@ export default {
     
   },
   methods: {
+    cargarControles(categoria){
+      this.categoria = categoria
+    },
+    limpiarControles(){
+      this.categoria = {id: 0, name: ''}
+    },
+    async guardar(){
+      console.log(this.categoria);
+      if(this.categoria.id==0){
+        this.agregar()
+      }else{
+        this.editar()
+      }
+    },
     async agregar() {
       try{        
-        srvCategoria.postCategorias(this.categoria)
-        .then(() => {
-          //const prods = await srvCategoria.getCategorias();  
-          //this.lista = prods.data;  
-        })
-        const prods = await srvCategoria.getCategorias();
-        this.lista = prods.data;
+        const rdo = await srvCategoria.postCategorias(this.categoria)
+        console.log(rdo);
+        const prods = await srvCategoria.getCategorias();  
+        this.lista = prods.data;  
+
       }catch(err){
         console.log("no anduvo la api mockeada porque estaba resfriada" + err.message);
       }
@@ -61,12 +73,10 @@ export default {
     },
     async editar() {
       try{
-        srvCategoria.putCategoria(this.categoria)
-        .then(() => {
-          //const prods = await srvCategoria.getCategorias();  
-          //this.lista = prods.data;  
-        })
-         
+        const rdo = await srvCategoria.putCategoria(this.categoria)
+        console.log(rdo);
+        const prods = await srvCategoria.getCategorias();  
+        this.lista = prods.data;           
       }catch(err){
         console.log("no anduvo la api mockeada porque estaba resfriada"  + err.message);
       }
@@ -74,11 +84,10 @@ export default {
     },
     async eliminar(id) {
       try{
-        srvCategoria.deleteCategoria(id)
-        .then(() => {
-          //const prods = await srvCategoria.getCategorias();
-          //this.lista = prods.data;
-        })
+          const rdo = await srvCategoria.deleteCategoria(id)
+          console.log(rdo);
+          const prods = await srvCategoria.getCategorias();
+          this.lista = prods.data;
       }catch(err){
         console.log("no anduvo la api mockeada porque estaba resfriada"  + err.message);
       }
