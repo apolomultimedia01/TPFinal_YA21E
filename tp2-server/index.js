@@ -134,6 +134,39 @@ app.post(rutaCategorias, async function (req, res) {
     
 })
 
+app.put(rutaCategorias + '/:id', async function (req, res) {
+
+    try{
+        Categorias.findByIdAndUpdate(req.body)
+        .then((data) => {
+            res.status(200);
+            res.send(data);
+        })
+        .catch(err => {
+            console.log(error.message);
+            res.status(404).end(); 
+        })
+        
+    }catch(error){
+        console.log(error.message);
+        res.status(404).end(); 
+    }
+    
+})
+
+app.delete(rutaCategorias + '/:id', (req, res) => {
+
+    Categorias.findByIdAndDelete({ _id : req.params.id }) 
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
+
 app.get(rutaCategorias, (req, res) => {
 
     Categorias.find()

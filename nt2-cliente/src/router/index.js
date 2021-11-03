@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Sistema from '../views/Sistema.vue'
 import Login from '../views/Login.vue'
+import Categorias from '../views/CategoriasLista.vue'
+import CategoriasEdit from '../views/CategoriasEdit.vue'
 
 const routes = [
   {
@@ -28,6 +30,18 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/Categorias',
+    name: 'Categorias',
+    component: Categorias,
+    meta: { requiresAuth: true } //requiere autorización
+  },
+  {
+    path: '/CategoriasEdit',
+    name: 'CategoriasEdit',
+    component: CategoriasEdit,
+    meta: { requiresAuth: true } //requiere autorización
   }
 ]
 
