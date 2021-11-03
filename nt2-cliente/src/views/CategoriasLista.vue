@@ -1,15 +1,25 @@
 <template>
   <div>
     <h2>Categorías</h2>
+    <form @submit.prevent="guardar">
+      <label v-if="error">Hubo un error al guardar.</label>
+      <input v-model="categoria.id" name="id" hidden value>
+      <label for="pass">Descripción:</label>
+      <input v-model="categoria.name" name="name" value>
+      <br><br>
+      <button type="submit" name="button">Guardar</button>
+
+      <br><br>
+    </form>
+
+    <br><br>
+
     <ul>
       <li v-for="categoria in lista" v-bind:key="categoria.id">
-        {{ categoria.id }} {{ categoria.name }} <a href="#" v-on:click="editar">Editar</a> <a href="#" v-on:click="eliminar">Eliminar</a>
+        {{ categoria.id }} {{ categoria.name }} <a href="#" v-on:click="editar">Editar</a> <a href="#" v-on:click='eliminar(categoria.id)'>Eliminar</a>
       </li>
     </ul>
-    
-    <p>Descripcion: <input type="text" v-model="categoria.name" /></p>
 
-    <button v-on:click="agregar">Agregar</button>
   </div>
 </template>
 
@@ -29,46 +39,48 @@ export default {
     try{
       const prods = await srvCategoria.getCategorias();
       this.lista = prods.data;
-    }catch (error){
-      console.log("no anduvo la api mockeada porque estaba resfriada");
+    }catch (err){
+      console.log("no anduvo la api mockeada porque estaba resfriada"  + err.message);
     }
     
   },
   methods: {
-    armarCat(){
-      return {
-            id: this.categoria.id,
-            name: this.categoria.name
-        }
-    },
     async agregar() {
-      try{
-        const obj = armarCat()
-        const rta = await srvCategoria.postCategorias(obj);
-        this.lista = await srvCategoria.getCategorias();
-      }catch(error){
-        console.log("no anduvo la api mockeada porque estaba resfriada");
+      try{        
+        srvCategoria.postCategorias(this.categoria)
+        .then(() => {
+          //const prods = await srvCategoria.getCategorias();  
+          //this.lista = prods.data;  
+        })
+        const prods = await srvCategoria.getCategorias();
+        this.lista = prods.data;
+      }catch(err){
+        console.log("no anduvo la api mockeada porque estaba resfriada" + err.message);
       }
       
     },
     async editar() {
       try{
-        const obj = armarCat()
-        const rta = await srvCategoria.putCategoria(obj);
-        this.lista = await srvCategoria.getCategorias();
-      }catch(error){
-        console.log("no anduvo la api mockeada porque estaba resfriada");
+        srvCategoria.putCategoria(this.categoria)
+        .then(() => {
+          //const prods = await srvCategoria.getCategorias();  
+          //this.lista = prods.data;  
+        })
+         
+      }catch(err){
+        console.log("no anduvo la api mockeada porque estaba resfriada"  + err.message);
       }
       
     },
-    async eliminar() {
+    async eliminar(id) {
       try{
-        const obj = armarCat()
-        const rta = await srvCategoria.deleteCategoria(obj);
-        const prods = await srvCategoria.getCategorias();
-        this.lista = prods.data;
-      }catch(error){
-        console.log("no anduvo la api mockeada porque estaba resfriada");
+        srvCategoria.deleteCategoria(id)
+        .then(() => {
+          //const prods = await srvCategoria.getCategorias();
+          //this.lista = prods.data;
+        })
+      }catch(err){
+        console.log("no anduvo la api mockeada porque estaba resfriada"  + err.message);
       }
       
     }

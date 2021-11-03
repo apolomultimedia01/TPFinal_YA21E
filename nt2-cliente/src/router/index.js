@@ -4,7 +4,7 @@ import About from '../views/About.vue'
 import Sistema from '../views/Sistema.vue'
 import Login from '../views/Login.vue'
 import Categorias from '../views/CategoriasLista.vue'
-import CategoriasEdit from '../views/CategoriasEdit.vue'
+
 
 const routes = [
   {
@@ -32,15 +32,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/Categorias',
+    path: '/categorias',
     name: 'Categorias',
     component: Categorias,
-    meta: { requiresAuth: true } //requiere autorización
-  },
-  {
-    path: '/CategoriasEdit',
-    name: 'CategoriasEdit',
-    component: CategoriasEdit,
     meta: { requiresAuth: true } //requiere autorización
   }
 ]
