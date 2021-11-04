@@ -130,7 +130,7 @@ export default {
     },
     agregarAlCarrito(id, name) {
       this.$store.dispatch("agregarAlCarrito", id).then(() => {
-        this.cantidad = this.getCantidadProd;
+        this.cantidad++;
         this.productosAgregados.push(name);
       });
     },
