@@ -7,6 +7,10 @@ const Product = new Schema({
     name : {
         type: String,
         required: true
+    },
+    categoryId : {
+        type: String,
+        required: true
     }
 }, {
     collection: 'products'

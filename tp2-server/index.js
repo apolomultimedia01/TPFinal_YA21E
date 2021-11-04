@@ -291,6 +291,19 @@ app.get(rutaProductos + '/:id', (req, res) => {
 
 })
 
+app.get(rutaProductos + '/xcategoria/:id', (req, res) => {
+
+    Productos.find({ categoryId : req.params.id }) 
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
+
 // -----------------------------------------  FIN PRODUCTOS ------------------------------------------------------
 
 // -----------------------------------------   SUCURSALES ------------------------------------------------------
@@ -298,7 +311,7 @@ app.get(rutaProductos + '/:id', (req, res) => {
 app.post(rutaSucursales, async function (req, res) {
 
     try{
-        const existe = await Categorias.exists({ name : req.body.name })
+        const existe = await Sucursales.exists({ name : req.body.name })
         if(!existe){
             console.log("va a crear");
             Sucursales.create(req.body)
