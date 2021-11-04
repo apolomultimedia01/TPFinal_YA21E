@@ -5,6 +5,7 @@
       <router-link to="/about">About | </router-link>
       <router-link v-show="islogged" to="/sistema">Sistema | </router-link>
       <router-link v-show="islogged" to="/categoria">Categorias | </router-link>
+      <router-link v-show="islogged" to="/sucursal">Sucursales | </router-link>
       <router-link v-show="!islogged" to="/login">Login | </router-link>
       <a v-show="islogged" href="#" v-on:click="logout">Logout</a>
       

@@ -21,6 +21,9 @@ const Categorias = require('./models/categories')
 const rutaProductos = '/producto';
 const Productos = require('./models/products')
 
+const rutaSucursales = '/sucursal';
+const Sucursales = require('./models/branches')
+
 app.use(cors());
 
 //middlewares
@@ -289,5 +292,98 @@ app.get(rutaProductos + '/:id', (req, res) => {
 })
 
 // -----------------------------------------  FIN PRODUCTOS ------------------------------------------------------
+
+// -----------------------------------------   SUCURSALES ------------------------------------------------------
+
+app.post(rutaSucursales, async function (req, res) {
+
+    try{
+        const existe = await Categorias.exists({ name : req.body.name })
+        if(!existe){
+            console.log("va a crear");
+            Sucursales.create(req.body)
+            .then((data) => {
+                res.status(200);
+                res.send(data);
+            })
+            .catch(err => {
+                console.log(err.message);
+                res.status(404).end(); 
+            })
+        }else{
+            console.log("La sucursal ya existe");
+            res.status(409);
+            res.send();
+        }
+    }catch(error){
+        console.log(error.message);
+        res.status(404).end(); 
+    }
+    
+})
+
+app.put(rutaSucursales + '/editar/:id', (req, res) => {
+
+    try{
+        Sucursales.findByIdAndUpdate(req.params.id, req.body)
+        .then((data) => {
+            res.status(200);
+            res.send(data);
+        })
+        .catch(err => {
+            console.log(err.message);
+            res.status(404).end(); 
+        })
+        
+    }catch(error){
+        console.log(error.message);
+        res.status(404).end(); 
+    }
+    
+})
+
+app.delete(rutaSucursales + '/borrar/:id', (req, res) => {
+
+    Sucursales.findByIdAndDelete({ _id : req.params.id }) 
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
+
+app.get(rutaSucursales, (req, res) => {
+
+    Sucursales.find()
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
+
+app.get(rutaSucursales + '/:id', (req, res) => {
+
+    Sucursales.findById({ _id : req.params.id }) 
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err.message);
+        res.status(404).end(); 
+    })
+
+})
+
+// -----------------------------------------  FIN SUCURSALES ------------------------------------------------------
+
+
+
 
 app.listen(puerto); 

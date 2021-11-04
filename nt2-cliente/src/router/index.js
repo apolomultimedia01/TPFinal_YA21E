@@ -4,6 +4,7 @@ import About from '../views/About.vue'
 import Sistema from '../views/Sistema.vue'
 import Login from '../views/Login.vue'
 import Categoria from '../views/Categoria.vue'
+import Sucursal from '../views/Sucursal.vue'
 
 
 const routes = [
@@ -35,6 +36,12 @@ const routes = [
     path: '/categoria',
     name: 'Categoria',
     component: Categoria,
+    meta: { requiresAuth: true } //requiere autorización
+  },
+  {
+    path: '/sucursal',
+    name: 'Sucursal',
+    component: Sucursal,
     meta: { requiresAuth: true } //requiere autorización
   }
 ]
