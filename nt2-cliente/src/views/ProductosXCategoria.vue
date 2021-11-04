@@ -11,7 +11,9 @@
       <div class="col-md-5 col-lg-4 order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text">Productos seleccionados:</span>
-          <span class="badge bg-dark rounded-pill text-white">{{ cantidad }}</span>
+          <span class="badge bg-dark rounded-pill text-white">{{
+            cantidad
+          }}</span>
         </h4>
         <ul class="list-group mb-3">
           <div v-if="productosAgregados.length == 0">
@@ -38,7 +40,7 @@
               @change="cambiarCategoria"
               v-model="categoriaId"
             >
-            <option value="">Elegí una categoría</option>
+              <option value="">Elegí una categoría</option>
               <option
                 v-for="categ in categorias"
                 v-bind:key="categ._id"
@@ -50,33 +52,35 @@
           </div>
 
           <div class="col-12">
-             <div class="form-group">
-               <br>
-            <label class="form-label" v-if="productos.length > 0">Elegí un producto</label>
-            <ul class="list-group mb-3">
-              <li
-                class="list-group-item d-flex justify-content-between lh-sm"
-                v-for="(prod, index) in productos"
-                v-bind:producto="prod"
-                v-bind:key="index"
+            <div class="form-group">
+              <br />
+              <label class="form-label" v-if="productos.length > 0"
+                >Elegí un producto</label
               >
-                <div class="row">
-                   <div class="col-md-6">
-                  <h6 class="my-0">{{ prod.name }}</h6>
-                  <small class="text-muted">{{ prod._id }}</small>
-                   </div>
+              <ul class="list-group mb-3">
+                <li
+                  class="list-group-item d-flex justify-content-between lh-sm"
+                  v-for="(prod, index) in productos"
+                  v-bind:producto="prod"
+                  v-bind:key="index"
+                >
+                  <div class="row">
                     <div class="col-md-6">
-                  <button
-                    v-on:click="agregarAlCarrito(prod._id, prod.name)"
-                    type="button"
-                    class="btn btn-primary"
-                  >
-                    Agregar al carrito
-                  </button>
+                      <h6 class="my-0">{{ prod.name }}</h6>
+                      <small class="text-muted">{{ prod._id }}</small>
+                    </div>
+                    <div class="col-md-6">
+                      <button
+                        v-on:click="agregarAlCarrito(prod._id, prod.name)"
+                        type="button"
+                        class="btn btn-primary"
+                      >
+                        Agregar al carrito
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -124,7 +128,7 @@ export default {
         );
         this.productos = prods.data;
       } catch (err) {
-        this.productos=[]
+        this.productos = [];
         console.log("No se pudo cambiar la categoría " + err.message);
       }
     },
@@ -139,4 +143,7 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: #edeff1 !important;
+}
 </style>
