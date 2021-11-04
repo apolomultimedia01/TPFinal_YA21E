@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Home | </router-link>
       <router-link to="/about">About | </router-link>
-      <router-link v-show="islogged" to="/sistema">Sistema | </router-link>
+      <router-link to="/comprar">Comprar | </router-link>
       <router-link v-show="islogged" to="/categoria">Categorias | </router-link>
       <router-link v-show="islogged" to="/sucursal">Sucursales | </router-link>
       <router-link v-show="!islogged" to="/login">Login | </router-link>

@@ -6,21 +6,25 @@ import srvUsuario from '../services/UsuariosService.js'
 const store = createStore({
   state () {
     return {
-      usuario: null
+      usuario: null,
+      productos: []
     }
   },
   mutations: {
 
     SET_USER_DATA(state, usuario){
-        console.log(`entró a setuserdata con ${usuario}`);
         state.usuario = usuario;
         localStorage.setItem('usr', usuario); //Guardo en memoria del browser el usuario
     },
     CLEAR_USER_DATA(state){
-      console.log(`entró a clearuserdata`);
       state.usuario = null;
       localStorage.removeItem('usr'); //quito de memoria del browser el usuario
-    }
+    },
+
+    ADD_PRODUCT(state, id){
+      state.productos.push(id);
+      localStorage.setItem('carrito', state.productos); //Guardo en memoria del browser el listado de productos
+    } 
 
   },
   actions:{
@@ -39,11 +43,18 @@ const store = createStore({
     },
     logout({commit}){
       commit('CLEAR_USER_DATA'); 
-    }
+    },
+    async agregarAlCarrito({commit}, id){
+      commit('ADD_PRODUCT', id);
+    },
   },
   getters: {
       islogged(state){
           return !!state.usuario;
+      },
+      getCantidadProd(state){
+        
+        return state.productos.length;
       }
   }
 })
