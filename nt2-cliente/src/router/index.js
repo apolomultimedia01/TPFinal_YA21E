@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Sistema from '../views/Sistema.vue'
 import Login from '../views/Login.vue'
-import Categorias from '../views/Categorias.vue'
+import Categoria from '../views/Categoria.vue'
 
 
 const routes = [
@@ -32,9 +32,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/categorias',
-    name: 'Categorias',
-    component: Categorias,
+    path: '/categoria',
+    name: 'Categoria',
+    component: Categoria,
     meta: { requiresAuth: true } //requiere autorización
   }
 ]

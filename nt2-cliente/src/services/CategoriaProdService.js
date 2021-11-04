@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: `http://localhost:3000`,
+  baseURL: `http://localhost:5000`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -19,10 +19,10 @@ export default {
     return apiClient.post('/categoria/', categoria)
   },
   deleteCategoria(id) {
-    return apiClient.delete('/categoria/' + id)
+    return apiClient.delete('/categoria/borrar/' + id)
   },
   putCategoria(categoria) {
-      console.log(categoria)
-      return ('/categoria/' + categoria.id , categoria)
+    console.log(categoria._id)
+    return apiClient.put('/categoria/editar/' + categoria._id , categoria)
   },
 }

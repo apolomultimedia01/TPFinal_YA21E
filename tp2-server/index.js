@@ -119,7 +119,7 @@ app.post(rutaCategorias, async function (req, res) {
                 res.send(data);
             })
             .catch(err => {
-                console.log(error.message);
+                console.log(err.message);
                 res.status(404).end(); 
             })
         }else{
@@ -134,16 +134,18 @@ app.post(rutaCategorias, async function (req, res) {
     
 })
 
-app.put(rutaCategorias + '/:id', async function (req, res) {
+app.put(rutaCategorias + '/editar/:id', (req, res) => {
 
     try{
-        Categorias.findByIdAndUpdate(req.body)
+        console.log('EDITO ');
+        console.log(req.body);
+        Categorias.findByIdAndUpdate(req.params.id, req.body)
         .then((data) => {
             res.status(200);
             res.send(data);
         })
         .catch(err => {
-            console.log(error.message);
+            console.log(err.message);
             res.status(404).end(); 
         })
         
@@ -154,7 +156,7 @@ app.put(rutaCategorias + '/:id', async function (req, res) {
     
 })
 
-app.delete(rutaCategorias + '/:id', (req, res) => {
+app.delete(rutaCategorias + '/borrar/:id', (req, res) => {
 
     Categorias.findByIdAndDelete({ _id : req.params.id }) 
     .then(data => {
