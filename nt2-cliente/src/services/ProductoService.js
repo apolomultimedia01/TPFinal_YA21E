@@ -10,19 +10,19 @@ const apiClient = axios.create({
 
 export default {
   getProductos() {
-    return apiClient.get('/productos')
+    return apiClient.get('/producto')
   },
   getProductosPor(id) {
-    return apiClient.get('/productos/' + id)
+    return apiClient.get('/producto/' + id)
   },
   postProductos(producto) {
-    return apiClient.post('/productos/', producto)
+    return apiClient.post('/producto/', producto)
   },
   deleteProducto(id) {
-    return apiClient.delete('/productos/' + id)
+    return apiClient.delete('/producto/borrar/' + id)
   },
   putProducto(producto) {
       console.log(producto)
-      return ('/productos/' + producto.id , producto)
+      return ('/producto/editar/' + producto.id , producto)
   },
 }
