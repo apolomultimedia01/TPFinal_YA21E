@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Categoria from '../views/Categoria.vue'
 import Sucursal from '../views/Sucursal.vue'
+import Producto from '../views/Producto.vue'
 import Comprar from '../views/ProductosXCategoria.vue'
 
 
@@ -27,6 +28,12 @@ const routes = [
     path: '/sucursal',
     name: 'Sucursal',
     component: Sucursal,
+    meta: { requiresAuth: true } //requiere autorización
+  },
+  {
+    path: '/producto',
+    name: 'Producto',
+    component: Producto,
     meta: { requiresAuth: true } //requiere autorización
   },
   {

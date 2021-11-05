@@ -11,6 +11,10 @@ const Product = new Schema({
     categoryId : {
         type: String,
         required: true
+    },
+    precio : {
+        type: Number,
+        default : 0
     }
 }, {
     collection: 'products'

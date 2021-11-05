@@ -19,13 +19,13 @@ export default {
     return apiClient.get('/producto/xcategoria/' + CategoridId)
   },
   postProductos(producto) {
+    console.log(producto)
     return apiClient.post('/producto/', producto)
   },
   deleteProducto(id) {
     return apiClient.delete('/producto/borrar/' + id)
   },
   putProducto(producto) {
-      console.log(producto)
-      return ('/producto/editar/' + producto.id , producto)
+    return apiClient.put('/producto/editar/' + producto._id , producto)
   },
 }

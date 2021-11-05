@@ -25,8 +25,13 @@
             v-bind:key="item._id"
           >
             <div>
-              <h6 class="my-0">{{ item }}</h6>
+              <h6 class="my-0">{{ item.name }}</h6>
+              <small class="text-muted">${{ item.precio }}</small>
             </div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total</span>
+            <strong>${{ total }}</strong>
           </li>
         </ul>
       </div>
@@ -67,11 +72,11 @@
                   <div class="row">
                     <div class="col-md-6">
                       <h6 class="my-0">{{ prod.name }}</h6>
-                      <small class="text-muted">{{ prod._id }}</small>
+                      <small class="text-muted">${{ prod.precio }}</small>
                     </div>
                     <div class="col-md-6">
                       <button
-                        v-on:click="agregarAlCarrito(prod._id, prod.name)"
+                        v-on:click="agregarAlCarrito(prod)"
                         type="button"
                         class="btn btn-primary"
                       >
@@ -81,6 +86,22 @@
                   </div>
                 </li>
               </ul>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Elegir sucursal</label>
+              <select class="form-control">
+                <option value="">Elegí una sucursal</option>
+                <option
+                  v-for="sucursal in sucursales"
+                  v-bind:key="sucursal._id"
+                  v-bind:value="sucursal._id"
+                >
+                  {{ sucursal.name }} - {{ sucursal.address }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -97,6 +118,7 @@
 import { mapGetters } from "vuex";
 import srvProducto from "../services/ProductoService.js";
 import srvCategoria from "../services/CategoriaProdService.js";
+import srvSucursal from "../services/SucursalService.js";
 
 export default {
   name: "ProductosXCategoria",
@@ -107,18 +129,25 @@ export default {
       categoriaId: "",
       categorias: [],
       productosAgregados: [],
+      sucursales: [],
+      total: 0,
     };
   },
   created: async function () {
     try {
       const categ = await srvCategoria.getCategorias();
       this.categorias = categ.data;
+      const suc = await srvSucursal.getSucursales();
+      this.sucursales = suc.data;
+      this.cantidad = this.getCarritos.length;
+      this.productosAgregados = this.getCarritos;
+      this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
     } catch (err) {
       console.log("No se pudo cargar las categorias " + err.message);
     }
   },
   computed: {
-    ...mapGetters(["getCantidadProd"]),
+    ...mapGetters(["getCarritos"]),
   },
   methods: {
     async cambiarCategoria() {
@@ -132,10 +161,10 @@ export default {
         console.log("No se pudo cambiar la categoría " + err.message);
       }
     },
-    agregarAlCarrito(id, name) {
-      this.$store.dispatch("agregarAlCarrito", id).then(() => {
+    agregarAlCarrito(producto) {
+      this.$store.dispatch("agregarAlCarrito", producto).then(() => {
         this.cantidad++;
-        this.productosAgregados.push(name);
+        this.total += producto.precio;
       });
     },
   },

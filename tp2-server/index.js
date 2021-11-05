@@ -205,7 +205,6 @@ app.get(rutaCategorias + '/:id', (req, res) => {
 // -----------------------------------------   PRODUCTOS ------------------------------------------------------
 
 app.post(rutaProductos, async function (req, res) {
-
     try{
         const existe = await Productos.exists({ name : req.body.name })
         if(!existe){

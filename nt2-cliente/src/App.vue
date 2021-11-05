@@ -20,7 +20,9 @@
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" v-show="!islogged" to="/comprar">Comprar</router-link>
+              <router-link class="nav-link" v-show="!islogged" to="/comprar"
+                >Comprar</router-link
+              >
             </li>
             <li class="nav-item">
               <router-link class="nav-link" v-show="islogged" to="/categoria"
@@ -33,14 +35,17 @@
               >
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" v-show="islogged" to="/producto"
+                >Productos</router-link
+              >
+            </li>
+            <li class="nav-item">
               <router-link class="nav-link" v-show="!islogged" to="/login"
                 >Login</router-link
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" v-show="islogged" v-on:click="logout" href="#"
-                >Cerrar sesión</a
-              >
+              <a class="nav-link" v-show="islogged" href="#" v-on:click="logout">Cerrar Sesión</a>
             </li>
           </ul>
         </div>
