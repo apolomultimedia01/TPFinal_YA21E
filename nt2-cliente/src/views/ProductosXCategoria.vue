@@ -1,10 +1,16 @@
 <template>
   <div class="container">
-    <div class="py-5 text-center">
+    <div class="py-5 text-center noImprimir">
       <h2>Realizar Compra</h2>
-      <p class="lead">
+      <p class="lead noImprimir">
         Por favor agregá tus productos al carrito y realizá la compra
       </p>
+    </div>
+
+    <div class="col-12 imprimir">
+      <div class="alert alert-success" role="alert">
+  Gracias por realizar tu compra! Tenés que retirar el producto en la sucursal {{sucursal.name}} - Direccion: {{sucursal.address}}
+</div>
     </div>
 
     <div class="row g-5">
@@ -35,7 +41,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-7 col-lg-8">
+      <div class="col-md-7 col-lg-8 noImprimir">
         <h4 class="mb-3">Agregar productos</h4>
         <div class="row g-3">
           <div class="col-sm-12">
@@ -62,9 +68,9 @@
               <label class="form-label" v-if="productos.length > 0"
                 >Elegí un producto</label
               >
-              <ul class="list-group mb-3">
+              <ul class="list-group mb-12">
                 <li
-                  class="list-group-item d-flex justify-content-between lh-sm"
+                  class="list-group-item justify-content-between lh-sm"
                   v-for="(prod, index) in productos"
                   v-bind:producto="prod"
                   v-bind:key="index"
@@ -92,12 +98,11 @@
           <div class="col-12">
             <div class="form-group">
               <label class="form-label">Elegir sucursal</label>
-              <select class="form-control">
-                <option value="">Elegí una sucursal</option>
+              <select class="form-control" v-model="sucursal">
                 <option
                   v-for="sucursal in sucursales"
                   v-bind:key="sucursal._id"
-                  v-bind:value="sucursal._id"
+                  v-bind:value="sucursal"
                 >
                   {{ sucursal.name }} - {{ sucursal.address }}
                 </option>
@@ -106,7 +111,7 @@
           </div>
         </div>
 
-        <button class="w-100 btn btn-success btn-lg" type="submit">
+        <button class="w-100 btn btn-success btn-lg" type="button" v-if="getCarritos.length > 0" v-on:click="imprimirTicket()">
           Imprimir ticket
         </button>
       </div>
@@ -115,7 +120,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions,mapGetters } from "vuex";
 import srvProducto from "../services/ProductoService.js";
 import srvCategoria from "../services/CategoriaProdService.js";
 import srvSucursal from "../services/SucursalService.js";
@@ -127,6 +132,7 @@ export default {
       cantidad: 0,
       productos: [],
       categoriaId: "",
+      sucursal:{name:"",address:""},
       categorias: [],
       productosAgregados: [],
       sucursales: [],
@@ -139,15 +145,14 @@ export default {
       this.categorias = categ.data;
       const suc = await srvSucursal.getSucursales();
       this.sucursales = suc.data;
-      this.cantidad = this.getCarritos.length;
-      this.productosAgregados = this.getCarritos;
-      this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
+      this.setInfoProductos()
     } catch (err) {
       console.log("No se pudo cargar las categorias " + err.message);
     }
   },
   computed: {
     ...mapGetters(["getCarritos"]),
+    ...mapActions(["limpiarCarrito"])
   },
   methods: {
     async cambiarCategoria() {
@@ -161,12 +166,28 @@ export default {
         console.log("No se pudo cambiar la categoría " + err.message);
       }
     },
+    setInfoProductos(){
+      this.cantidad = this.getCarritos.length;
+      this.productosAgregados = this.getCarritos;
+      this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
+    },
     agregarAlCarrito(producto) {
       this.$store.dispatch("agregarAlCarrito", producto).then(() => {
         this.cantidad++;
         this.total += producto.precio;
       });
     },
+    imprimirTicket(){
+      if(this.sucursal.name != ''){
+        window.print();
+      this.limpiarCarrito
+      this.setInfoProductos()
+      }else{
+        alert("Debe elegir una sucursal para finalizar la compra")
+      }
+      
+
+    }
   },
 };
 </script>
@@ -175,4 +196,19 @@ export default {
 body {
   background-color: #edeff1 !important;
 }
+@media print{
+			@page {size: landscape}
+			div {
+				break-inside: avoid;
+			}
+      .noImprimir{
+        display:none
+      }
+       .imprimir{
+        display:block !important
+      }
+		}
+    .imprimir{
+        display:none
+      }
 </style>

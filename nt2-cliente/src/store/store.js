@@ -35,6 +35,10 @@ const store = createStore({
     ADD_PRODUCT(state, producto) {
       state.productos.push(producto);
       localStorage.setItem('carrito', JSON.stringify(state.productos)); //Guardo en memoria del browser el listado de productos
+    },
+    CLEAR_PRODUCT(state) {
+      state.productos = [];
+      localStorage.removeItem('carrito');
     }
 
   },
@@ -57,6 +61,9 @@ const store = createStore({
     },
     async agregarAlCarrito({ commit }, producto) {
       commit('ADD_PRODUCT', producto);
+    },
+    limpiarCarrito({ commit }) {
+      commit('CLEAR_PRODUCT');
     },
   },
   getters: {
