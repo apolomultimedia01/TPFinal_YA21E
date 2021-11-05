@@ -9,8 +9,9 @@
 
     <div class="col-12 imprimir">
       <div class="alert alert-success" role="alert">
-  Gracias por realizar tu compra! Tenés que retirar el producto en la sucursal {{sucursal.name}} - Direccion: {{sucursal.address}}
-</div>
+        Gracias por realizar tu compra! El producto lo retiras en la sucursal
+        {{ sucursal.name }} - Direccion: {{ sucursal.address }}
+      </div>
     </div>
 
     <div class="row g-5">
@@ -111,7 +112,12 @@
           </div>
         </div>
 
-        <button class="w-100 btn btn-success btn-lg" type="button" v-if="getCarritos.length > 0" v-on:click="imprimirTicket()">
+        <button
+          class="w-100 btn btn-success btn-lg"
+          type="button"
+          v-if="getCarritos.length > 0"
+          v-on:click="imprimirTicket()"
+        >
           Imprimir ticket
         </button>
       </div>
@@ -120,7 +126,7 @@
 </template>
 
 <script>
-import { mapActions,mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import srvProducto from "../services/ProductoService.js";
 import srvCategoria from "../services/CategoriaProdService.js";
 import srvSucursal from "../services/SucursalService.js";
@@ -132,7 +138,7 @@ export default {
       cantidad: 0,
       productos: [],
       categoriaId: "",
-      sucursal:{name:"",address:""},
+      sucursal: { name: "", address: "" },
       categorias: [],
       productosAgregados: [],
       sucursales: [],
@@ -145,14 +151,14 @@ export default {
       this.categorias = categ.data;
       const suc = await srvSucursal.getSucursales();
       this.sucursales = suc.data;
-      this.setInfoProductos()
+      this.setInfoProductos();
     } catch (err) {
       console.log("No se pudo cargar las categorias " + err.message);
     }
   },
   computed: {
     ...mapGetters(["getCarritos"]),
-    ...mapActions(["limpiarCarrito"])
+    ...mapActions(["limpiarCarrito"]),
   },
   methods: {
     async cambiarCategoria() {
@@ -166,7 +172,7 @@ export default {
         console.log("No se pudo cambiar la categoría " + err.message);
       }
     },
-    setInfoProductos(){
+    setInfoProductos() {
       this.cantidad = this.getCarritos.length;
       this.productosAgregados = this.getCarritos;
       this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
@@ -177,17 +183,15 @@ export default {
         this.total += producto.precio;
       });
     },
-    imprimirTicket(){
-      if(this.sucursal.name != ''){
+    imprimirTicket() {
+      if (this.sucursal.name != "") {
         window.print();
-      this.limpiarCarrito
-      this.setInfoProductos()
-      }else{
-        alert("Debe elegir una sucursal para finalizar la compra")
+        this.limpiarCarrito;
+        this.setInfoProductos();
+      } else {
+        alert("Debe elegir una sucursal para finalizar la compra");
       }
-      
-
-    }
+    },
   },
 };
 </script>
@@ -196,19 +200,21 @@ export default {
 body {
   background-color: #edeff1 !important;
 }
-@media print{
-			@page {size: landscape}
-			div {
-				break-inside: avoid;
-			}
-      .noImprimir{
-        display:none
-      }
-       .imprimir{
-        display:block !important
-      }
-		}
-    .imprimir{
-        display:none
-      }
+@media print {
+  @page {
+    size: landscape;
+  }
+  div {
+    break-inside: avoid;
+  }
+  .noImprimir {
+    display: none;
+  }
+  .imprimir {
+    display: block !important;
+  }
+}
+.imprimir {
+  display: none;
+}
 </style>
