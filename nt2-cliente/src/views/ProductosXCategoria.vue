@@ -23,24 +23,38 @@
           }}</span>
         </h4>
         <ul class="list-group mb-3">
-          <div v-if="productosAgregados.length == 0">
-            No hay productos agregados
-          </div>
-          <li
+          <div
+            v-if="productosAgregados.length == 0"
             class="list-group-item d-flex justify-content-between lh-sm"
-            v-for="item in productosAgregados"
-            v-bind:key="item._id"
           >
-            <div>
-              <h6 class="my-0">{{ item.name }}</h6>
-              <small class="text-muted">${{ item.precio }}</small>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total</span>
-            <strong>${{ total }}</strong>
-          </li>
+            <h6 class="my-0">No hay productos agregados</h6>
+          </div>
+          <div v-else>
+            <li
+              class="list-group-item d-flex justify-content-between lh-sm"
+              v-for="item in productosAgregados"
+              v-bind:key="item._id"
+            >
+              <div>
+                <h6 class="my-0">{{ item.name }}</h6>
+                <small class="text-muted">${{ item.precio }}</small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total</span>
+              <strong>${{ total }}</strong>
+            </li>
+          </div>
         </ul>
+        <div v-if="productosAgregados.length != 0" class="noImprimir">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            v-on:click="this.setInfoProductos()"
+          >
+            Vaciar carrito
+          </button>
+        </div>
       </div>
       <div class="col-md-7 col-lg-8 noImprimir">
         <h4 class="mb-3">Agregar productos</h4>
@@ -99,11 +113,16 @@
           <div class="col-12">
             <div class="form-group">
               <label class="form-label">Elegir sucursal</label>
-              <select class="form-control" v-model="sucursal">
+              <select
+                class="form-control"
+                v-model="sucursalId"
+                @change="cambiarSucursal"
+              >
+                <option value="">Elegí una sucursal</option>
                 <option
                   v-for="sucursal in sucursales"
                   v-bind:key="sucursal._id"
-                  v-bind:value="sucursal"
+                  v-bind:value="sucursal._id"
                 >
                   {{ sucursal.name }} - {{ sucursal.address }}
                 </option>
@@ -138,6 +157,7 @@ export default {
       cantidad: 0,
       productos: [],
       categoriaId: "",
+      sucursalId: "",
       sucursal: { name: "", address: "" },
       categorias: [],
       productosAgregados: [],
@@ -173,9 +193,14 @@ export default {
       }
     },
     setInfoProductos() {
-      this.cantidad = this.getCarritos.length;
-      this.productosAgregados = this.getCarritos;
-      this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
+      this.$store.dispatch("limpiarCarrito").then(() => {
+        this.cantidad = this.getCarritos.length;
+        this.productosAgregados = this.getCarritos;
+        this.total = this.getCarritos.reduce(
+          (acc, item) => acc + item.precio,
+          0
+        );
+      });
     },
     agregarAlCarrito(producto) {
       this.$store.dispatch("agregarAlCarrito", producto).then(() => {
@@ -186,10 +211,18 @@ export default {
     imprimirTicket() {
       if (this.sucursal.name != "") {
         window.print();
-        this.limpiarCarrito;
         this.setInfoProductos();
       } else {
         alert("Debe elegir una sucursal para finalizar la compra");
+      }
+    },
+    async cambiarSucursal() {
+      try {
+        const suc = await srvSucursal.getSucursalesPor(this.sucursalId);
+        this.sucursal = suc.data;
+      } catch (err) {
+        this.sucursal = "";
+        console.log("No se pudo cambiar la sucursal " + err.message);
       }
     },
   },
