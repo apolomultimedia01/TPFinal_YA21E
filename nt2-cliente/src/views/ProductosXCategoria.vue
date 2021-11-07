@@ -50,7 +50,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            v-on:click="this.setInfoProductos()"
+            v-on:click="this.vaciarCarrito()"
           >
             Vaciar carrito
           </button>
@@ -193,14 +193,9 @@ export default {
       }
     },
     setInfoProductos() {
-      this.$store.dispatch("limpiarCarrito").then(() => {
-        this.cantidad = this.getCarritos.length;
-        this.productosAgregados = this.getCarritos;
-        this.total = this.getCarritos.reduce(
-          (acc, item) => acc + item.precio,
-          0
-        );
-      });
+      this.cantidad = this.getCarritos.length;
+      this.productosAgregados = this.getCarritos;
+      this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
     },
     agregarAlCarrito(producto) {
       this.$store.dispatch("agregarAlCarrito", producto).then(() => {
@@ -210,11 +205,18 @@ export default {
     },
     imprimirTicket() {
       if (this.sucursal.name != "") {
-        window.print();
-        this.setInfoProductos();
+        this.$store.dispatch("limpiarCarrito").then(() => {
+          window.print();
+          this.setInfoProductos();
+        });
       } else {
         alert("Debe elegir una sucursal para finalizar la compra");
       }
+    },
+    vaciarCarrito() {
+      this.$store.dispatch("limpiarCarrito").then(() => {
+        this.setInfoProductos();
+      });
     },
     async cambiarSucursal() {
       try {
