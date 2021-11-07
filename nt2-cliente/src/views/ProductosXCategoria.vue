@@ -204,7 +204,7 @@ export default {
       });
     },
     imprimirTicket() {
-      if (this.sucursal.name != "") {
+      if (this.sucursal.name != "" && this.sucursal.name != null) {
         this.$store.dispatch("limpiarCarrito").then(() => {
           window.print();
           this.setInfoProductos();
