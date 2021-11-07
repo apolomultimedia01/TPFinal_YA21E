@@ -22,5 +22,6 @@ Install:
 2) npm install en tp2-server
 3) npm install en nt2-cliente
 4) npm i cors en tp2-server
-5) npm run serve en nt2-cliente
-6) nodemon index.js en tp2-server
+5) npm i bootstrap en nt2-cliente
+6) npm run serve en nt2-cliente
+7) nodemon index.js en tp2-server
