@@ -120,7 +120,6 @@ export default {
   },
   created: async function () {
     try {
-      console.log("creada");
       const prods = await srvProducto.getProductos();
       this.lista = prods.data;
       const categ = await srvCategoria.getCategorias();

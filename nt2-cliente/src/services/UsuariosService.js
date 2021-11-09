@@ -15,7 +15,6 @@ export default {
 
     return apiClient.post(`${rutaUsuario}/validar`, usuario)
       .then((data) => {
-        console.log(data);
         return data
       })
       .catch((error) => {

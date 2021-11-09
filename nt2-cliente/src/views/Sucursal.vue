@@ -90,7 +90,6 @@ export default {
   },
   created: async function () {
     try {
-      console.log("creada");
       const prods = await srvSucursal.getSucursales();
       this.lista = prods.data;
     } catch (err) {

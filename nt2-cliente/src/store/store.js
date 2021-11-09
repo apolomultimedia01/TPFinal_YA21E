@@ -26,10 +26,12 @@ const store = createStore({
     SET_USER_DATA(state, usuario) {
       state.usuario = usuario;
       localStorage.setItem('usr', usuario); //Guardo en memoria del browser el usuario
+      location.push("/Home");
     },
     CLEAR_USER_DATA(state) {
       state.usuario = null;
       localStorage.removeItem('usr'); //quito de memoria del browser el usuario
+      location.reload()
     },
 
     ADD_PRODUCT(state, producto) {
@@ -56,7 +58,7 @@ const store = createStore({
         })
 
     },
-    logout({ commit }) {
+    cerrarSesion({ commit }) {
       commit('CLEAR_USER_DATA');
     },
     async agregarAlCarrito({ commit }, producto) {
