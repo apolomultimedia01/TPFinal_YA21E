@@ -45,8 +45,7 @@
               >
             </li>
             <li class="nav-item">
-              <!--<a class="nav-link" v-show="islogged" href="#" v-on:click="logout">Cerrar Sesión</a>-->
-              <button v-show="islogged" v-on:click="logout">Cerrar Sesión</button>
+              <a class="nav-link" v-show="islogged" href="#" v-on:click="logout">Cerrar Sesión</a>
             </li>
           </ul>
         </div>
