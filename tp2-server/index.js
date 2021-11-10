@@ -37,7 +37,7 @@ app.use(async function (req, res, next){
         console.log(err.message);
         res.status(500).end(); 
     });
-    console.log('Conectó');
+
     next();
 })
 
@@ -49,7 +49,7 @@ app.post(rutaUsuario + '/validar', async function (req, res) {
 
     Usuarios.findOne({ email : req.body.email, pass : req.body.pass }).exec()
     .then(data => {
-        console.log(data);
+
         if(data!==null){
             res.status(200);
             res.send(data);
