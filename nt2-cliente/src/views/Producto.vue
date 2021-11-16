@@ -126,7 +126,7 @@ export default {
       this.categorias = categ.data;
     } catch (err) {
       console.log(
-        "no anduvo la api mockeada porque estaba resfriada" + err.message
+        "no anduvo la api" + err.message
       );
     }
   },
@@ -160,7 +160,6 @@ export default {
     },
     async editar() {
       try {
-        console.log("EDITAR");
         const rdo = await srvProducto.putProducto(this.producto);
         console.log(rdo);
         const prods = await srvProducto.getProductos();

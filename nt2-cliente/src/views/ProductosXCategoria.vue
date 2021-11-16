@@ -65,6 +65,7 @@
           </button>
         </div>
       </div>
+
       <div class="col-md-7 col-lg-8 noImprimir">
         <h4 class="mb-3">Agregar productos</h4>
         <div class="row g-3">
@@ -106,21 +107,16 @@
                     </div>
                     <div class="col-md-3">
                       <input
-                        v-model="cantSelec"
+                        v-model="prod.cantSelec"
                         type="number"
                         name="cantidad"
                         class="form-control"
                         minlength="1"
+                        maxlength="4"
+                        min=0
+                        max=500
+                        v-on:change="agregarAlCarrito(prod)"
                       />
-                    </div>
-                    <div class="col-md-3">
-                      <button
-                        v-on:click="agregarAlCarrito(prod)"
-                        type="button"
-                        class="btn btn-primary"
-                      >
-                        Agregar al carrito
-                      </button>
                     </div>
                   </div>
                 </li>
@@ -197,7 +193,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getCarritos"]),
-    ...mapGetters(["getCantSelec"]),
     ...mapActions(["limpiarCarrito"]),
   },
   methods: {
@@ -213,22 +208,25 @@ export default {
       }
     },
     setInfoProductos() {
-      this.cantidad = parseInt(this.getCantSelec);
       this.productosAgregados = this.getCarritos;
-      this.total = parseInt(
-        this.getCarritos.reduce(
-          (acc, item) => acc + item.precio * item.cantSelec,
-          0
-        )
-      );
+      this.calcularTotal();
     },
     agregarAlCarrito(producto) {
-      this.$store
-        .dispatch("agregarAlCarrito", [producto, this.cantSelec])
-        .then(() => {
-          this.cantidad += parseInt(this.cantSelec);
-          this.total += producto.precio * parseInt(this.cantSelec);
+      if(producto.cantSelec>0){
+        this.$store.dispatch("agregarAlCarrito", [producto]).then(() => {
+          this.calcularTotal();
         });
+      }else{
+        this.quitarProducto(producto);
+      }
+    },
+    calcularTotal() {
+      this.cantidad = this.productosAgregados.reduce(function (acum, elemento) {
+        return (acum += parseInt(elemento.cantSelec));
+      }, 0);
+      this.total = this.productosAgregados.reduce(function (acum, elemento) {
+        return (acum += elemento.precio * parseInt(elemento.cantSelec));
+      }, 0);
     },
     quitarProducto(producto) {
       this.$store.dispatch("quitarProducto", [producto]).then(() => {
