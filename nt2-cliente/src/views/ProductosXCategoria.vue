@@ -39,7 +39,7 @@
                 <h6 class="my-0">{{ item.name }} ({{ item.cantSelec }})</h6>
                 <small class="text-muted">${{ item.precio }} x unidad</small>
               </div>
-              <div>
+              <div class="noImprimir">
                 <button
                   class="btn"
                   type="button"
