@@ -64,6 +64,32 @@ const store = createStore({
       localStorage.setItem('cantSelec', state.cantSelec)
       localStorage.setItem('carrito', JSON.stringify(state.productos)); //Guardo en memoria del browser el listado de productos
     },
+    REMOVE_PRODUCT(state, producto) {
+      const carrito = JSON.parse(localStorage.getItem('carrito'));
+
+      var prod = null
+      if (carrito != null) {
+        prod = carrito.find(item => item._id === producto._id);
+      }
+
+      if (prod != null) {
+        state.cantSelec -= 1;
+
+        const index = state.productos.findIndex(item => {
+          return (producto._id === item._id)
+        })
+
+        if (prod.cantSelec > 1) {
+          producto.cantSelec -= 1
+          state.productos[index] = producto
+        } else {
+          state.productos.splice(index, 1);
+        }
+      }
+
+      localStorage.setItem('cantSelec', state.cantSelec)
+      localStorage.setItem('carrito', JSON.stringify(state.productos));
+    },
     CLEAR_PRODUCT(state) {
       state.productos = [];
       state.cantSelec = 0;
@@ -92,6 +118,9 @@ const store = createStore({
     async agregarAlCarrito({ commit }, [producto, cantSelec]) {
       producto.cantSelec = cantSelec;
       commit('ADD_PRODUCT', producto);
+    },
+    quitarProducto({ commit }, [producto]) {
+      commit('REMOVE_PRODUCT', producto);
     },
     limpiarCarrito({ commit }) {
       commit('CLEAR_PRODUCT');

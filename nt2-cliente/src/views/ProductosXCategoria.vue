@@ -27,7 +27,7 @@
             v-if="productosAgregados.length == 0"
             class="list-group-item d-flex justify-content-between lh-sm"
           >
-            <h6 class="my-0">No hay productos agregados</h6>
+            <h6 class="my-0">No hay productos seleccionados</h6>
           </div>
           <div v-else>
             <li
@@ -36,11 +36,17 @@
               v-bind:key="item._id"
             >
               <div>
-                <h6 class="my-0">{{ item.name }}</h6>
-                <small class="text-muted">${{ item.precio }}</small>
+                <h6 class="my-0">{{ item.name }} ({{ item.cantSelec }})</h6>
+                <small class="text-muted">${{ item.precio }} x unidad</small>
               </div>
-               <div>
-                <small class="text-muted">{{ item.cantSelec }}</small>
+              <div>
+                <button
+                  class="btn"
+                  type="button"
+                  v-on:click="this.quitarProducto(item)"
+                >
+                  &#x1F5D1;
+                </button>
               </div>
             </li>
             <li class="list-group-item d-flex justify-content-between">
@@ -55,7 +61,7 @@
             class="btn btn-secondary"
             v-on:click="this.vaciarCarrito()"
           >
-            Vaciar carrito
+            Vaciar carrito &#x1F5D1;
           </button>
         </div>
       </div>
@@ -98,14 +104,14 @@
                       <h6 class="my-0">{{ prod.name }}</h6>
                       <small class="text-muted">${{ prod.precio }}</small>
                     </div>
-                     <div class="col-md-3">
+                    <div class="col-md-3">
                       <input
-                      v-model="cantSelec"
-                      type="number"
-            name="cantidad"
-            class="form-control"
-            minlength="1"
-          />
+                        v-model="cantSelec"
+                        type="number"
+                        name="cantidad"
+                        class="form-control"
+                        minlength="1"
+                      />
                     </div>
                     <div class="col-md-3">
                       <button
@@ -175,7 +181,7 @@ export default {
       productosAgregados: [],
       sucursales: [],
       total: 0,
-      cantSelec: 1
+      cantSelec: 1,
     };
   },
   created: async function () {
@@ -209,12 +215,25 @@ export default {
     setInfoProductos() {
       this.cantidad = parseInt(this.getCantSelec);
       this.productosAgregados = this.getCarritos;
-      this.total = parseInt(this.getCarritos.reduce((acc, item) => acc + item.precio*item.cantSelec, 0));
+      this.total = parseInt(
+        this.getCarritos.reduce(
+          (acc, item) => acc + item.precio * item.cantSelec,
+          0
+        )
+      );
     },
     agregarAlCarrito(producto) {
-      this.$store.dispatch("agregarAlCarrito", [producto,this.cantSelec]).then(() => {
-        this.cantidad+=parseInt(this.cantSelec);
-        this.total += producto.precio*parseInt(this.cantSelec);
+      this.$store
+        .dispatch("agregarAlCarrito", [producto, this.cantSelec])
+        .then(() => {
+          this.cantidad += parseInt(this.cantSelec);
+          this.total += producto.precio * parseInt(this.cantSelec);
+        });
+    },
+    quitarProducto(producto) {
+      this.$store.dispatch("quitarProducto", [producto]).then(() => {
+        this.cantidad -= 1;
+        this.total -= producto.precio;
       });
     },
     imprimirTicket() {
