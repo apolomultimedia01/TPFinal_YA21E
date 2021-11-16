@@ -7,6 +7,7 @@ const store = createStore({
   state() {
     let usuario = null
     let productos = []
+    let cantSelec = 0;
 
     if (localStorage.getItem('usr') != null) {
       usuario = localStorage.getItem('usr')
@@ -16,9 +17,14 @@ const store = createStore({
       productos = JSON.parse(localStorage.getItem('carrito'))
     }
 
+    if (localStorage.getItem('cantSelec') != null) {
+      cantSelec = parseInt(localStorage.getItem('cantSelec'))
+    }
+
     return {
       usuario: usuario,
-      productos: productos
+      productos: productos,
+      cantSelec: cantSelec
     }
   },
   mutations: {
@@ -35,12 +41,34 @@ const store = createStore({
     },
 
     ADD_PRODUCT(state, producto) {
-      state.productos.push(producto);
+      const carrito = JSON.parse(localStorage.getItem('carrito'));
+
+      state.cantSelec += producto.cantSelec;
+
+      var prod = null
+      if (carrito != null) {
+        prod = carrito.find(item => item._id === producto._id);
+      }
+
+      if (prod != null) {
+        producto.cantSelec = parseInt(producto.cantSelec) + parseInt(prod.cantSelec);
+        const index = state.productos.findIndex(item => {
+          return (producto._id === item._id)
+        })
+
+        state.productos[index] = producto;
+      } else {
+        state.productos.push(producto);
+      }
+
+      localStorage.setItem('cantSelec', state.cantSelec)
       localStorage.setItem('carrito', JSON.stringify(state.productos)); //Guardo en memoria del browser el listado de productos
     },
     CLEAR_PRODUCT(state) {
       state.productos = [];
+      state.cantSelec = 0;
       localStorage.removeItem('carrito');
+      localStorage.removeItem('cantSelec');
     }
 
   },
@@ -61,7 +89,8 @@ const store = createStore({
     cerrarSesion({ commit }) {
       commit('CLEAR_USER_DATA');
     },
-    async agregarAlCarrito({ commit }, producto) {
+    async agregarAlCarrito({ commit }, [producto, cantSelec]) {
+      producto.cantSelec = cantSelec;
       commit('ADD_PRODUCT', producto);
     },
     limpiarCarrito({ commit }) {
@@ -74,6 +103,9 @@ const store = createStore({
     },
     getCarritos(state) {
       return state.productos;
+    },
+    getCantSelec(state) {
+      return state.cantSelec;
     }
   }
 })

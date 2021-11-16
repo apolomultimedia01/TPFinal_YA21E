@@ -39,6 +39,9 @@
                 <h6 class="my-0">{{ item.name }}</h6>
                 <small class="text-muted">${{ item.precio }}</small>
               </div>
+               <div>
+                <small class="text-muted">{{ item.cantSelec }}</small>
+              </div>
             </li>
             <li class="list-group-item d-flex justify-content-between">
               <span>Total</span>
@@ -95,7 +98,16 @@
                       <h6 class="my-0">{{ prod.name }}</h6>
                       <small class="text-muted">${{ prod.precio }}</small>
                     </div>
-                    <div class="col-md-6">
+                     <div class="col-md-3">
+                      <input
+                      v-model="cantSelec"
+                      type="number"
+            name="cantidad"
+            class="form-control"
+            minlength="1"
+          />
+                    </div>
+                    <div class="col-md-3">
                       <button
                         v-on:click="agregarAlCarrito(prod)"
                         type="button"
@@ -163,6 +175,7 @@ export default {
       productosAgregados: [],
       sucursales: [],
       total: 0,
+      cantSelec: 1
     };
   },
   created: async function () {
@@ -178,6 +191,7 @@ export default {
   },
   computed: {
     ...mapGetters(["getCarritos"]),
+    ...mapGetters(["getCantSelec"]),
     ...mapActions(["limpiarCarrito"]),
   },
   methods: {
@@ -193,14 +207,14 @@ export default {
       }
     },
     setInfoProductos() {
-      this.cantidad = this.getCarritos.length;
+      this.cantidad = parseInt(this.getCantSelec);
       this.productosAgregados = this.getCarritos;
-      this.total = this.getCarritos.reduce((acc, item) => acc + item.precio, 0);
+      this.total = parseInt(this.getCarritos.reduce((acc, item) => acc + item.precio*item.cantSelec, 0));
     },
     agregarAlCarrito(producto) {
-      this.$store.dispatch("agregarAlCarrito", producto).then(() => {
-        this.cantidad++;
-        this.total += producto.precio;
+      this.$store.dispatch("agregarAlCarrito", [producto,this.cantSelec]).then(() => {
+        this.cantidad+=parseInt(this.cantSelec);
+        this.total += producto.precio*parseInt(this.cantSelec);
       });
     },
     imprimirTicket() {
