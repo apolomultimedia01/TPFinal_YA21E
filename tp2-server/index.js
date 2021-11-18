@@ -6,8 +6,6 @@ const cors = require('cors')
 
 const app = express();  //new
 
-//const funciones = require('./modules/funciones.js');
-
 const puerto  = 5000;
 
 const DSN = 'mongodb://localhost:27017/tpfinal-ya21e'; // Data source name
@@ -117,7 +115,7 @@ app.post(rutaCategorias, async function (req, res) {
     try{
         const existe = await Categorias.exists({ name : req.body.name })
         if(!existe){
-            console.log("va a crear");
+            
             Categorias.create(req.body)
             .then((data) => {
                 res.status(200);
@@ -312,7 +310,7 @@ app.post(rutaSucursales, async function (req, res) {
     try{
         const existe = await Sucursales.exists({ name : req.body.name })
         if(!existe){
-            console.log("va a crear");
+            
             Sucursales.create(req.body)
             .then((data) => {
                 res.status(200);
