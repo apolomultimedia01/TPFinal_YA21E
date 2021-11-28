@@ -33,9 +33,9 @@ app.post(rutaUsuario + '/validar', funcUsuarios.validar)
 
 app.post(rutaUsuario, funcUsuarios.insert)
 
-app.put(rutaUsuario + '/editar/:id', funcUsuarios.update)
+app.put(rutaUsuario + '/:id', funcUsuarios.update)
 
-app.delete(rutaUsuario + '/borrar/:id', funcUsuarios.delete)
+app.delete(rutaUsuario + '/:id', funcUsuarios.delete)
 
 app.get(rutaUsuario, funcUsuarios.get)
 
@@ -46,9 +46,9 @@ app.get(rutaUsuario, funcUsuarios.get)
 
 app.post(rutaCategorias, funcCategorias.insert)
 
-app.put(rutaCategorias + '/editar/:id', funcCategorias.update)
+app.put(rutaCategorias + '/:id', funcCategorias.update)
 
-app.delete(rutaCategorias + '/borrar/:id', funcCategorias.delete)
+app.delete(rutaCategorias + '/:id', funcCategorias.delete)
 
 app.get(rutaCategorias, funcCategorias.get)
 
@@ -62,9 +62,9 @@ app.get(rutaCategorias + '/:id', funcCategorias.getxid)
 
 app.post(rutaProductos, funcProductos.insert)
 
-app.put(rutaProductos + '/editar/:id', funcProductos.update)
+app.put(rutaProductos + '/:id', funcProductos.update)
 
-app.delete(rutaProductos + '/borrar/:id', funcProductos.delete)
+app.delete(rutaProductos + '/:id', funcProductos.delete)
 
 app.get(rutaProductos, funcProductos.get)
 
@@ -78,9 +78,9 @@ app.get(rutaProductos + '/xcategoria/:id', funcProductos.getxcategoria)
 
 app.post(rutaSucursales, funcSucursales.insert)
 
-app.put(rutaSucursales + '/editar/:id', funcSucursales.update)
+app.put(rutaSucursales + '/:id', funcSucursales.update)
 
-app.delete(rutaSucursales + '/borrar/:id', funcSucursales.delete)
+app.delete(rutaSucursales + '/:id', funcSucursales.delete)
 
 app.get(rutaSucursales, funcSucursales.get)
 
