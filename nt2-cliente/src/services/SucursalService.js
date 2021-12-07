@@ -19,10 +19,10 @@ export default {
     return apiClient.post('/sucursal/', sucursal)
   },
   deleteSucursal(id) {
-    return apiClient.delete('/sucursal/borrar/' + id)
+    return apiClient.delete('/sucursal/' + id)
   },
   putSucursal(sucursal) {
     console.log(sucursal._id)
-    return apiClient.put('/sucursal/editar/' + sucursal._id , sucursal)
+    return apiClient.put('/sucursal/' + sucursal._id , sucursal)
   },
 }

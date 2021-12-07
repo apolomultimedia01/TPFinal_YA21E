@@ -23,9 +23,9 @@ export default {
     return apiClient.post('/producto/', producto)
   },
   deleteProducto(id) {
-    return apiClient.delete('/producto/borrar/' + id)
+    return apiClient.delete('/producto/' + id)
   },
   putProducto(producto) {
-    return apiClient.put('/producto/editar/' + producto._id , producto)
+    return apiClient.put('/producto/' + producto._id , producto)
   },
 }

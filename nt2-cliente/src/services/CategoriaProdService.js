@@ -19,10 +19,10 @@ export default {
     return apiClient.post('/categoria/', categoria)
   },
   deleteCategoria(id) {
-    return apiClient.delete('/categoria/borrar/' + id)
+    return apiClient.delete('/categoria/' + id)
   },
   putCategoria(categoria) {
     console.log(categoria._id)
-    return apiClient.put('/categoria/editar/' + categoria._id , categoria)
+    return apiClient.put('/categoria/' + categoria._id , categoria)
   },
 }
