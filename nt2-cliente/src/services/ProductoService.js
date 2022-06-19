@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: `http://localhost:3000`,
+  baseURL: `http://localhost:5000`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -10,19 +10,22 @@ const apiClient = axios.create({
 
 export default {
   getProductos() {
-    return apiClient.get('/productos')
+    return apiClient.get('/producto')
   },
   getProductosPor(id) {
-    return apiClient.get('/productos/' + id)
+    return apiClient.get('/producto/' + id)
+  },
+  getProductosPorCategoria(CategoridId) {
+    return apiClient.get('/producto/xcategoria/' + CategoridId)
   },
   postProductos(producto) {
-    return apiClient.post('/productos/', producto)
+    console.log(producto)
+    return apiClient.post('/producto/', producto)
   },
   deleteProducto(id) {
-    return apiClient.delete('/productos/' + id)
+    return apiClient.delete('/producto/' + id)
   },
   putProducto(producto) {
-      console.log(producto)
-      return ('/productos/' + producto.id , producto)
+    return apiClient.put('/producto/' + producto._id , producto)
   },
 }

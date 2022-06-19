@@ -1,9 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Sistema from '../views/Sistema.vue'
 import Login from '../views/Login.vue'
-import Categorias from '../views/Categorias.vue'
+import Categoria from '../views/Categoria.vue'
+import Sucursal from '../views/Sucursal.vue'
+import Producto from '../views/Producto.vue'
+import Comprar from '../views/ProductosXCategoria.vue'
 
 
 const routes = [
@@ -13,29 +14,32 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: About
-  },
-  {
-    path: '/sistema',
-    name: 'Sistema',
-    component: Sistema,
-    meta: { requiresAuth: true } //requiere autorización
-  },
-  {
     path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/categorias',
-    name: 'Categorias',
-    component: Categorias,
+    path: '/categoria',
+    name: 'Categoria',
+    component: Categoria,
     meta: { requiresAuth: true } //requiere autorización
+  },
+  {
+    path: '/sucursal',
+    name: 'Sucursal',
+    component: Sucursal,
+    meta: { requiresAuth: true } //requiere autorización
+  },
+  {
+    path: '/producto',
+    name: 'Producto',
+    component: Producto,
+    meta: { requiresAuth: true } //requiere autorización
+  },
+  {
+    path: '/comprar',
+    name: 'Comprar',
+    component: Comprar
   }
 ]
 
